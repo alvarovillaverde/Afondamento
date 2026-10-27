@@ -112,4 +112,81 @@ public class basicas {
 
         return true;
     }
+
+    // Función para sumar dos matrices de enteros
+    public static int[][] sum(int[][] array1, int[][] array2) {
+        // 1. Validaciones de nulos o matrices vacías
+        if (array1 == null || array2 == null || array1.length == 0 || array2.length == 0) {
+            throw new IllegalArgumentException("Las matrices no pueden ser nulas o estar vacías.");
+        }
+
+        int rows = array1.length;
+        int cols = array1[0].length;
+
+        // 2. Comprobar que ambas matrices tengan las mismas dimensiones
+        if (rows != array2.length || cols != array2[0].length) {
+            throw new IllegalArgumentException("Las matrices deben tener las mismas dimensiones para poder sumarse.");
+        }
+
+        int[][] arraySumado = new int[rows][cols];
+
+        // 3. Sumar elemento a elemento
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                arraySumado[i][j] = array1[i][j] + array2[i][j];
+            }
+        }
+
+        return arraySumado;
+    }
+
+    // Función contraria: Resta de dos matrices (array1 - array2)
+        public static int[][] subtract(int[][] array1, int[][] array2) {
+        // 1. Validaciones de nulos o matrices vacías
+        if (array1 == null || array2 == null || array1.length == 0 || array2.length == 0) {
+            throw new IllegalArgumentException("Las matrices no pueden ser nulas o estar vacías.");
+        }
+
+        int rows = array1.length;
+        int cols = array1[0].length;
+
+        // 2. Comprobar que ambas matrices tengan las mismas dimensiones
+        if (rows != array2.length || cols != array2[0].length) {
+            throw new IllegalArgumentException("Las matrices deben tener las mismas dimensiones para poder restarse.");
+        }
+
+        int[][] arrayRestado = new int[rows][cols];
+
+        // 3. Restar elemento a elemento
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                arrayRestado[i][j] = array1[i][j] - array2[i][j];
+            }
+        }
+
+        return arrayRestado;
+    }
+
+    public static int[][] multiplicar(int[][] array1, int[][] array2) {
+        // Validación de nulos y dimensiones
+        if (array1 == null || array2 == null || array1.length == 0 || array2.length == 0) {
+            throw new IllegalArgumentException("Las matrices no pueden ser nulas ni estar vacías.");
+        }
+        if (array1[0].length != array2.length) {
+            throw new IllegalArgumentException("Las columnas de la primera matriz deben coincidir con las filas de la segunda.");
+        }
+
+        int[][] result = new int[array1.length][array2[0].length];
+
+        // Algoritmo de multiplicación
+        for (int i = 0; i < array1.length; i++) {           // Filas de A
+            for (int j = 0; j < array2[0].length; j++) {       // Columnas de B
+                for (int k = 0; k < array1[0].length; k++) {   // Elementos compartidos
+                    result[i][j] += array1[i][k] * array2[k][j];
+                }
+            }
+        }
+
+        return result;
+    }
 }
