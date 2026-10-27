@@ -167,7 +167,7 @@ public class basicas {
         return arrayRestado;
     }
 
-    public static int[][] multiplicar(int[][] array1, int[][] array2) {
+    public static int[][] multiplicar2(int[][] array1, int[][] array2) {
         // Validación de nulos y dimensiones
         if (array1 == null || array2 == null || array1.length == 0 || array2.length == 0) {
             throw new IllegalArgumentException("Las matrices no pueden ser nulas ni estar vacías.");
@@ -188,5 +188,17 @@ public class basicas {
         }
 
         return result;
+    }
+
+    // Método para multiplicar tres matrices: (A * B) * C
+    public static int[][] multiplicar3(int[][] a, int[][] b, int[][] c) {
+        // 1. Multiplicamos A por B (aquí dentro ya se validan nulos y que colsA == filasB)
+        int[][] ab = multiplicar2(a, b);
+
+        // 2. El resultado (ab) lo multiplicamos por C (se valida que colsB == filasC)
+        int[][] resultadoFinal = multiplicar2(ab, c);
+
+        // El resultado final tendrá dimensiones: filas de A x columnas de C
+        return resultadoFinal;
     }
 }
