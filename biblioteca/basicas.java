@@ -201,4 +201,50 @@ public class basicas {
         // El resultado final tendrá dimensiones: filas de A x columnas de C
         return resultadoFinal;
     }
+
+    public static int[][] minor(int[][] array, int row, int col) {
+        int rows = array.length;
+        int cols = array[0].length;
+        int[][] minor = new int[rows - 1][cols - 1];
+        for (int i = 0, mi = 0; i < rows; i++) {
+            if (i == row) continue;
+            for (int j = 0, mj = 0; j < cols; j++) {
+                if (j == col) continue;
+                minor[mi][mj] = array[i][j];
+                mj++;
+            }
+            mi++;
+        }
+        return minor;
+    }
+
+    public static int determinant(int[][] array) {
+        int rows = array.length;
+        int cols = array[0].length;
+
+        // Validar que la matriz sea cuadrada
+        if (rows != cols) {
+            throw new IllegalArgumentException("La matriz debe ser cuadrada para calcular el determinante.");
+        }
+
+        // Caso base 1x1
+        if (rows == 1) {
+            return array[0][0];
+        }
+
+        // Caso base 2x2: (a*d - b*c)
+        if (rows == 2) {
+            return (array[0][0] * array[1][1]) - (array[0][1] * array[1][0]);
+        }
+
+        // Para 3x3 (o superior): Desarrollo por menores de la primera fila
+        int det = 0;
+        for (int j = 0; j < cols; j++) {
+            int[][] subMatrix = minor(array, 0, j); // Usamos tu función minor fijando la fila 0
+            int signo = (j % 2 == 0) ? 1 : -1;
+            det += signo * array[0][j] * determinant(subMatrix);
+        }
+
+        return det;
+    }
 }
