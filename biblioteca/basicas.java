@@ -221,4 +221,82 @@ public class basicas {
         }
         return det;
     }
+
+    // Calcula la matriz adjunta y ya la devuelve traspuesta (Adj(A)^T)
+    public static int[][] adjointAndTranspose(int[][] array) {
+        int rows = array.length;
+        int cols = array[0].length;
+
+        if (rows != cols) {
+            throw new IllegalArgumentException("La matriz debe ser cuadrada.");
+        }
+
+        int[][] cofactors = new int[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                int[][] subMatrix = minor(array, i, j);
+                int signo = ((i + j) % 2 == 0) ? 1 : -1;
+                cofactors[i][j] = signo * determinant(subMatrix);
+            }
+        }
+
+        // Devolvemos la matriz de cofactores ya traspuesta
+        return transpose(cofactors);
+    }
+
+    // Calcula la inversa de una matriz de enteros: A^-1 = (1 / det(A)) * Adj(A)^T
+    public static double[][] inverse(int[][] array) {
+        int det = determinant(array);
+
+        if (det == 0) {
+            throw new ArithmeticException("La matriz no tiene inversa porque su determinante es 0.");
+        }
+
+        int[][] adjTraspuesta = adjointAndTranspose(array);
+        int n = array.length;
+        double[][] inversa = new double[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                inversa[i][j] = (double) adjTraspuesta[i][j] / det;
+            }
+        }
+
+        return inversa;
+    }
+
+    // Imprime una matriz de decimales (double) formateada a 2 decimales
+    public static void print2DArrayDouble(double[][] array) {
+        for (double[] row : array) {
+            for (double elem : row) {
+                // Evita imprimir "-0.00" por redondeos de punto flotante
+                if (Math.abs(elem) < 1e-9) elem = 0.0;
+                System.out.printf("%.2f\t", elem);
+            }
+            System.out.println();
+        }
+    }
+
+    // Multiplica una matriz de enteros (int[][]) por una de decimales (double[][])
+    public static double[][] multiplyIntDoubles(int[][] array1, double[][] array2) {
+        if (array1[0].length != array2.length) {
+            throw new IllegalArgumentException("Dimensiones incompatibles para multiplicar.");
+        }
+
+        int rowsA = array1.length;
+        int colsB = array2[0].length;
+        int shared = array1[0].length;
+        double[][] result = new double[rowsA][colsB];
+
+        for (int i = 0; i < rowsA; i++) {
+            for (int j = 0; j < colsB; j++) {
+                for (int k = 0; k < shared; k++) {
+                    result[i][j] += array1[i][k] * array2[k][j];
+                }
+            }
+        }
+
+        return result;
+    }
 }
